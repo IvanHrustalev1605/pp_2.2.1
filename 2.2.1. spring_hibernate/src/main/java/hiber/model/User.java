@@ -1,5 +1,7 @@
 package hiber.model;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import javax.persistence.*;
 
 @Entity
@@ -7,7 +9,7 @@ import javax.persistence.*;
 public class User {
 
    @Id
-   @GeneratedValue(strategy = GenerationType.IDENTITY)
+   @GeneratedValue(strategy = GenerationType.SEQUENCE)
    private Long id;
 
    @Column(name = "name")
@@ -18,13 +20,26 @@ public class User {
 
    @Column(name = "email")
    private String email;
-
+   @OneToOne(fetch = FetchType.EAGER)
+   @MapsId
+   private Car car;
    public User() {}
    
    public User(String firstName, String lastName, String email) {
       this.firstName = firstName;
       this.lastName = lastName;
       this.email = email;
+   }
+
+   public Car getCar() {
+      return car;
+   }
+
+   public User(String firstName, String lastName, String email, Car car) {
+      this.firstName = firstName;
+      this.lastName = lastName;
+      this.email = email;
+      this.car = car;
    }
 
    public Long getId() {
@@ -57,5 +72,17 @@ public class User {
 
    public void setEmail(String email) {
       this.email = email;
+   }
+
+   @Override
+   public String toString() {
+      return "User{" +
+              "id=" + id + '\n' +
+              "firstName='" + firstName + '\'' + '\n' +
+              "lastName='" + lastName + '\'' + '\n' +
+              "email='" + email + '\'' + '\n' +
+              "model=" + car.getModel() +'\'' + '\n' +
+              "series=" + car.getSeries() + '\n' +
+              '}';
    }
 }
