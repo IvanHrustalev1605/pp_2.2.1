@@ -31,21 +31,21 @@ public class UserDaoImp implements UserDao {
 
    @Override
    public User getUserByModel(String model, int series) {
-      TypedQuery<Car> q = sessionFactory.getCurrentSession()
-              .createQuery("from Car where model = :model AND series = :series");
+      TypedQuery<User> q = sessionFactory.getCurrentSession()
+              .createQuery("from User user where user.car.model = :model AND user.car.series = :series");
       q.setParameter("model", model);
       q.setParameter("series", series);
-      List<Car> findCarList = q.getResultList();
-      if(!findCarList.isEmpty()) {
-         Car findCar = findCarList.get(0);
-         List<User> userList = listUsers();
-        User fu = userList.stream()
-                 .filter(user -> user.getCar().equals(findCar))
-                 .findAny()
-                 .orElse(null);
-         return fu;
-      }
-      return null;
+      return q.setMaxResults(1).getSingleResult();
+//      List<Car> findCarList = q.getResultList();
+//      if(!findCarList.isEmpty()) {
+//         Car findCar = findCarList.get(0);
+//         List<User> userList = listUsers();
+//        User fu = userList.stream()
+//                 .filter(user -> user.getCar().equals(findCar))
+//                 .findAny()
+//                 .orElse(null);
+//         return fu;
+//      }
    }
 
 }
