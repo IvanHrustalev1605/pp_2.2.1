@@ -36,16 +36,5 @@ public class UserDaoImp implements UserDao {
       q.setParameter("model", model);
       q.setParameter("series", series);
       return q.setMaxResults(1).getSingleResult();
-//      List<Car> findCarList = q.getResultList();
-//      if(!findCarList.isEmpty()) {
-//         Car findCar = findCarList.get(0);
-//         List<User> userList = listUsers();
-//        User fu = userList.stream()
-//                 .filter(user -> user.getCar().equals(findCar))
-//                 .findAny()
-//                 .orElse(null);
-//         return fu;
-//      }
    }
-
 }
